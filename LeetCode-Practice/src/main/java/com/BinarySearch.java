@@ -14,8 +14,63 @@ public class BinarySearch {
        //   findLastIndexOfElement(ar,target);
        // findMaximumLengthOfSubarrayWhoseSumEqualtoTarget();
         int A[] = {1,2,2,1}; int []B ={2,2};
-        intersection(A,B);
+       // intersection(A,B);
+       // findKRotation();
+       // searchInRotatedArray();
     }
+
+    private static void searchInRotatedArray() {
+        int [] ar = {7,6,1,2,3,4,5}; int target = 4;
+        int pivot = findPivot(ar);
+        int idx = binarysearch(ar,0,pivot-1,target);
+        if (idx != -1) System.out.println("target found at:"+idx);
+
+        idx = binarysearch(ar,pivot,ar.length-1,target);
+        System.out.println("target found at:"+idx);
+    }
+    private static int binarysearch(int[] ar,int l,int r,int target){
+
+        while(l<=r){
+            int mid = (l+r)/2;
+            if (ar[mid] == target){
+               return mid;
+            }else if (ar[mid] < target){
+                l = mid + 1;
+            } else if (ar[mid] > target) {
+              r = mid - 1;
+            }
+        }
+        return -1;
+    }
+    private static int findPivot(int[] ar) {
+        int l = 0; int r = ar.length-1;
+        while(l<r){
+            int mid = l+(r-l)/2;
+            if (ar[mid]>ar[r]){
+                l = mid+1;
+            }else{
+                r=mid;
+            }
+        }
+        System.out.println("pivot index:"+r);
+        return r;
+    }
+
+    private static void findKRotation() {
+        int [] ar = {7,6,1,2,3,4,5};
+        int l = 0; int r = ar.length-1;
+        while(l<r){
+            int mid = l+(r-l)/2;
+            if (ar[mid]<ar[r]){
+                r = mid;
+            }else{
+                l = mid+1;
+            }
+        }
+        System.out.println("rotation count:"+r);
+    }
+
+
     //349
     static public int[] intersection(int[] A, int[] B) {
         Arrays.sort(A); Arrays.sort(B);
