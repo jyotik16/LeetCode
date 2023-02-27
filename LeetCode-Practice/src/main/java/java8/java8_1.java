@@ -1,11 +1,11 @@
 package java8;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Test1 {
+public class java8_1 {
 
     static class Employee implements Comparable<Employee>{
         int id; String name; String city; long salary;
@@ -95,7 +95,38 @@ public class Test1 {
      //   removeCharactesInString();
       //convertMapListintoMap();
         // convertMapListintoMapWithDuplicate();
-        convertListintoMap();
+       // convertListintoMap();
+      //  printVowlesfromString();
+        countthelettersInString();
+    }
+
+    private static void countthelettersInString() {
+        //count the letter present in strings
+        String str="Jyoti Kashyap";
+        Map<String, Long> charCountInmap = str.chars().mapToObj(Character::toString)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(charCountInmap); //{p=1,  =1, a=2, s=1, t=1, h=1, i=1, y=2, J=1, K=1, o=1}
+    }
+
+    private static void printVowlesfromString() {
+        String str="Jyoti Kashyap";
+        Stream<Integer> l = str.chars().boxed();
+      //  l.forEach(System.out::println); //106,121,,
+        //print the vowels
+        //str = str.toLowerCase();
+        str.chars().mapToObj(item->(char)item).
+                filter(item->item.equals('a') || item.equals('i') || item.equals('o') || item.equals('e') || item.equals('u'))
+                .forEach(System.out::println);
+        //count the vowles
+        long vowelCount = str.chars().mapToObj(item->(char)item).
+                filter(item->item.equals('a') || item.equals('i') || item.equals('o') || item.equals('e') || item.equals('u')).count();
+        System.out.println("Totals vowels are:"+vowelCount);
+
+        long consonutCount = str.chars().mapToObj(item->(char)item).
+                filter(item->((item>='a' && item<='z') || (item>='A' && item<='Z'))).count();
+        System.out.println("Totals consonuts are:"+consonutCount);
+        System.out.println("***********");
+
     }
 
     private static void convertListintoMap() {
