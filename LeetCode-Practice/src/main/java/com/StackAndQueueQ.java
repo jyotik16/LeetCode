@@ -1,11 +1,98 @@
 package com;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Stack;
 
 public class StackAndQueueQ {
     public static void main(String[] args) {
         int [] in = {5,3,8,-2,7};
+        String s = "((a+b)+(c+d))";
+        int [] num ={1,2,3,4,3};
+        int [] res = nextGreaterElements(num);
+        display(res);
+    }
+
+
+    static void display(int[] res){
+        for (int i=0;i<res.length;i++){
+            System.out.print(res[i]+" ");
+        }
+    }
+    //503
+    public static int[] nextGreaterElements(int[] nums) {
+        // corner case
+        if(nums == null) return null;
+        int n = nums.length;
+        int[] res = new int[n];
+        Stack<Integer> stack  = new Stack<>(); // to store idx
+        for(int i = 0; i < 2 * n; i++){
+            int num = nums[i % n];
+            while(!stack.isEmpty() && nums[stack.peek()] < num){
+                int idx = stack.pop();
+                res[idx] = num;
+            }
+            if(i < n) stack.push(i);
+        }
+        // set the max's greater element to be -1
+        while(!stack.isEmpty()){
+            int idx = stack.pop();
+            res[idx] = -1;
+        }
+        return res;
+
+    }
+    //Leetcode Dupliacte Brackets
+    public static boolean isDuplicateBrackets(String s) {
+        //String s = "((a+b)+(c+d))"; true
+        Stack<Character> st = new Stack<>();
+
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch == ')'){
+                while(st.size()>0 && st.peek()!='('){
+                    st.pop();
+                }
+                st.pop(); // remove ->(
+            }else if(ch == '}'){
+                while(st.size()>0 && st.peek()!='{'){
+                    st.pop();
+                }
+                st.pop(); // remove ->{
+            }else if(ch == ']'){
+                while(st.size()>0 && st.peek()!='['){
+                    st.pop();
+                }
+                st.pop(); // remove ->[
+            }else{
+                st.push(ch);
+            }
+        }
+        return st.size()==0;
+    }
+    // Leetcode 20
+    public boolean isValid(String s) {
+        Stack<Character> st = new Stack<>();
+        for(int i=0;i<s.length();i++){
+            Character ch = s.charAt(i);
+            if(ch=='(' || ch=='[' || ch=='{'){
+                st.push(ch);
+            }else if(ch==')'){
+                if(st.size()==0 || st.peek() != '(')
+                    return false;
+                st.pop(); //remove the (
+            }else if(ch==']'){
+                if(st.size()==0 || st.peek() != '[')
+                    return false;
+                st.pop(); //remove the [
+            }else if(ch=='}'){
+                if(st.size()==0 || st.peek() != '{')
+                    return false;
+                st.pop(); //remove the {
+            }
+        }
+        return st.size() == 0;
     }
     private int[] nsrIndex(int[] arr) {
         Stack<Integer> st = new Stack<>();
@@ -66,7 +153,7 @@ public class StackAndQueueQ {
         return res;
     }
     //503
-    public int[] nextGreaterElement_503(int[] nums) {
+    public static int[] nextGreaterElement_503(int[] nums) {
         int n = nums.length;
         Stack<Integer> st = new Stack<>();
         for (int i=n-2;i>=0;i--){
@@ -75,6 +162,7 @@ public class StackAndQueueQ {
             }
             st.push(i);
         }
+        //above loop ka purpose yehi hai ki issme sabse chota element index save hogya hai
         int [] res = new int[n];
         for (int i=n-1;i>=0;i--){
             while(st.size() >0 && st.peek() <= nums[i]){
@@ -168,7 +256,7 @@ public class StackAndQueueQ {
         return res;
     }
     //print the array element in output
-    public int[] nextSmallerElementLeft(int[] nums) {
+    public static int[] nextSmallerElementLeft(int[] nums) {
         Stack<Integer> st = new Stack<>();
         int n = nums.length;
         int [] res = new int[n];
@@ -182,7 +270,7 @@ public class StackAndQueueQ {
         return res;
     }
 
-    public int[] nextGreaterElementLeft(int[] nums) {
+    public static int[] nextGreaterElementLeft(int[] nums) {
         Stack<Integer> st = new Stack<>();
         int n = nums.length;
         int [] res = new int[n];
@@ -196,7 +284,7 @@ public class StackAndQueueQ {
         return res;
     }
 
-    public int[] nextSmallerElementRight(int[] nums) {
+    public static int[] nextSmallerElementRight(int[] nums) {
         Stack<Integer> st = new Stack<>();
         int n = nums.length;
         int [] res = new int[n];
@@ -210,7 +298,7 @@ public class StackAndQueueQ {
         return res;
     }
 
-    public int[] nextGreaterElementRight(int[] nums) {
+    public static int[] nextGreaterElementRight(int[] nums) {
         Stack<Integer> st = new Stack<>();
         int n = nums.length;
         int [] res = new int[n];
